@@ -12,6 +12,12 @@ import { Platform, StyleSheet, Text, View, Button } from 'react-native';
 
 export default class App extends Component {
 
+  constructor(props){
+    super(props)
+    this.state = {
+      pontuacao: 0
+    }
+  }
 
   componentWillMount() {
     var config = {
@@ -25,10 +31,35 @@ export default class App extends Component {
     firebase.initializeApp(config);
   }
 
+  salvarDados() {
+    var funcionarios = firebase.database().ref("funcionarios")
+    // funcionarios.child("001").child("nome").set("Jamilton")
+    // funcionarios.child("002").child("nome").set("Guilherme")
+  }
+
+  listarDados() {
+    var pontuacao = firebase.database().ref("pontuacao");
+    pontuacao.on('value', (snapshot) => {
+      this.setState({
+        pontuacao: snapshot.val()
+      })
+    });
+  }
+
   render() {
     return (
       <View>
-        <Text>Meu app</Text>
+        <Button
+          onPress={() => { this.salvarDados(); }}
+          title="Salvar dados"
+          color="#841584"
+          accessibilityLabel="Salvar dados" />
+        <Button
+          onPress={() => { this.listarDados(); }}
+          title="Listar dados"
+          color="#841584"
+          accessibilityLabel="Lista dados" />
+        <Text>{this.state.pontuacao}</Text>
       </View>
     )
   }
