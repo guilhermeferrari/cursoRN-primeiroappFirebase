@@ -56,4 +56,4 @@ buck-out/
 *.jsbundle
 
 #Firebase key
-firebaseconfig.js
+./firebaseconfig.js
