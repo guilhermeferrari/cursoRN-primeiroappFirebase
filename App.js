@@ -9,6 +9,7 @@
 import firebase from 'firebase';
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Button } from 'react-native';
+import {key as apiKey} from './firebaseconfig.json'
 
 export default class App extends Component {
 
@@ -21,7 +22,7 @@ export default class App extends Component {
 
   componentWillMount() {
     var config = {
-      apiKey: "AIzaSyAr9hBjxRf-MpkB_ajJnkLGOAnJeQX_U7I",
+      apiKey: apiKey,
       authDomain: "configuracaofirebasereac-b1ce8.firebaseapp.com",
       databaseURL: "https://configuracaofirebasereac-b1ce8.firebaseio.com",
       projectId: "configuracaofirebasereac-b1ce8",
