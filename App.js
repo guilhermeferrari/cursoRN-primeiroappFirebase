@@ -33,7 +33,7 @@ export default class App extends Component {
 
   cadastrarUsuario() {
     var email = "xxx@gmail.com"
-    var senha = "testeaas"
+    var senha = "123456789"
     const usuario = firebase.auth()
     usuario.createUserWithEmailAndPassword(
       email,
@@ -44,7 +44,8 @@ export default class App extends Component {
         if (erro.code == "auth/weak-password") {
           msgErro = "A senha precisa ter no minimo 6 caracteres"
         }
-        alert(msgErro)
+        if (msgErro != "")
+          alert(msgErro)
       }
     )
   }
@@ -70,6 +71,23 @@ export default class App extends Component {
     } */
   }
 
+  deslogarUsuario() {
+    const usuario = firebase.auth()
+    usuario.signOut()
+  }
+
+  logarUsuario(){
+    var email = "xxx@gmail.com"
+    var senha = "123456789"
+    const usuario = firebase.auth()
+    usuario.signInWithEmailAndPassword(email,senha).catch(
+      (erro) => {
+        alert(erro.message)
+      }
+    )
+
+  }
+
   render() {
     return (
       <View>
@@ -83,6 +101,16 @@ export default class App extends Component {
           title="Verificar usuario logado"
           color="#841584"
           accessibilityLabel="verificar usuario logado" />
+        <Button
+          onPress={() => { this.deslogarUsuario(); }}
+          title="Deslogar"
+          color="#841584"
+          accessibilityLabel="deslogar" />
+        <Button
+          onPress={() => { this.logarUsuario(); }}
+          title="logar"
+          color="#841584"
+          accessibilityLabel="logar" />
         <Text>xx</Text>
       </View>
     )
