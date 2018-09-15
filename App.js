@@ -12,7 +12,7 @@ import { Platform, StyleSheet, Text, View, Button } from 'react-native';
 
 export default class App extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       pontuacao: 0
@@ -31,35 +31,59 @@ export default class App extends Component {
     firebase.initializeApp(config);
   }
 
-  salvarDados() {
-    var funcionarios = firebase.database().ref("funcionarios")
-    // funcionarios.child("001").child("nome").set("Jamilton")
-    // funcionarios.child("002").child("nome").set("Guilherme")
+  cadastrarUsuario() {
+    var email = "xxx@gmail.com"
+    var senha = "testeaas"
+    const usuario = firebase.auth()
+    usuario.createUserWithEmailAndPassword(
+      email,
+      senha
+    ).catch(
+      (erro) => {
+        var msgErro = "";
+        if (erro.code == "auth/weak-password") {
+          msgErro = "A senha precisa ter no minimo 6 caracteres"
+        }
+        alert(msgErro)
+      }
+    )
   }
 
-  listarDados() {
-    var pontuacao = firebase.database().ref("pontuacao");
-    pontuacao.on('value', (snapshot) => {
-      this.setState({
-        pontuacao: snapshot.val()
-      })
-    });
+  verificarUsuarioLogado() {
+    const usuario = firebase.auth()
+
+    usuario.onAuthStateChanged(
+      (usuarioAtual) => {
+        if (usuarioAtual) {
+          alert("Usuario logado")
+        } else {
+          alert("Usuario nao está logado")
+        }
+      }
+    )
+
+    /* const usuarioAtual = usuario.currentUser
+    if (usuarioAtual) {
+      alert("Usuario logado")
+    } else {
+      alert("Usuario nao está logado")
+    } */
   }
 
   render() {
     return (
       <View>
         <Button
-          onPress={() => { this.salvarDados(); }}
-          title="Salvar dados"
+          onPress={() => { this.cadastrarUsuario(); }}
+          title="Cadastrar Usuario"
           color="#841584"
-          accessibilityLabel="Salvar dados" />
+          accessibilityLabel="Cadastrar usuário" />
         <Button
-          onPress={() => { this.listarDados(); }}
-          title="Listar dados"
+          onPress={() => { this.verificarUsuarioLogado(); }}
+          title="Verificar usuario logado"
           color="#841584"
-          accessibilityLabel="Lista dados" />
-        <Text>{this.state.pontuacao}</Text>
+          accessibilityLabel="verificar usuario logado" />
+        <Text>xx</Text>
       </View>
     )
   }
